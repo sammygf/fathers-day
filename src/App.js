@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.scss';
-import * as faceapi from 'face-api.js';
+// import * as faceapi from 'face-api.js';
 import { ReactComponent as Bg } from './images/backgrounds/1.svg'
 import character from './images/backgrounds/1.png'
 import top from './images/backgrounds/top.png'
@@ -23,22 +23,22 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    await faceapi.loadSsdMobilenetv1Model('/models');
+    // await faceapi.loadSsdMobilenetv1Model('/models');
     setTimeout(() => this.setState({
       animating: true
     }))
   }
 
-  onImageSelected = async event => {
-    const file = event.target.files[0];
-    const img = await faceapi.bufferToImage(file);
-    this.setState({
-      src: img.src,
-    }, () => {
-      // const results = faceapi.detectAllFaces(this.imgRef).withFaceLandmarks();
-      // console.log(results);
-    });
-  };
+  // onImageSelected = async event => {
+  //   const file = event.target.files[0];
+  //   const img = await faceapi.bufferToImage(file);
+  //   this.setState({
+  //     src: img.src,
+  //   }, () => {
+  //     // const results = faceapi.detectAllFaces(this.imgRef).withFaceLandmarks();
+  //     // console.log(results);
+  //   });
+  // };
 
   onAnimationEnd = event => {
     console.log(event);
