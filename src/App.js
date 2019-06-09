@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.scss';
 // import * as faceapi from 'face-api.js';
 import { ReactComponent as Bg } from './images/backgrounds/1.svg'
-import character from './images/backgrounds/1.png'
+import character from './images/backgrounds/character.png'
 import top from './images/backgrounds/top.png'
 import bottom from './images/backgrounds/bottom.png'
 import face from './images/face.png'
@@ -49,19 +49,25 @@ class App extends React.Component {
       <div className={classNames('App', {
         'animating': this.state.animating
       })} onAnimationEnd={this.onAnimationEnd}>
-        <header className="App-header">
-          {/*<img src={this.state.src} className="App-logo" alt="logo" ref={ref => this.imgRef = ref}/>*/}
-          <div className="background">
-            <Bg className="background__image"/>
-            <div className="character">
-              <img src={face} alt="" className="character__face"/>
-              <img src={character} className="character__image"/>
-            </div>
-            <div style={{backgroundImage: `url(${top})`}} className="top-text">Вітаю з днем батька найсуперовішого тата!</div>
-            <div style={{backgroundImage: `url(${bottom})`}} className="bottom-text">Я вірю тільки в таких супергероїв! Твоя Алла.</div>
+        {/*<img src={this.state.src} className="App-logo" alt="logo" ref={ref => this.imgRef = ref}/>*/}
+        <div className="background">
+          <Bg className="background__image"/>
+          <div className="character">
+            <img src={face} alt="" className="character__face"/>
+            <img src={character} className="character__image"/>
           </div>
-          {/*<input id="myFileUpload" type="file" onChange={this.onImageSelected} accept=".jpg, .jpeg, .png"/>*/}
-        </header>
+          <div className="top-text">
+            <img src={top} alt=""/>
+            <span>Вітаю з днем батька найсуперовішого
+            тата!</span>
+          </div>
+          <div className="bottom-text">
+            <img src={bottom} alt=""/>
+            <span>Я вірю тільки в таких супергероїв!
+            Твоя Алла.</span>
+          </div>
+        </div>
+        {/*<input id="myFileUpload" type="file" onChange={this.onImageSelected} accept=".jpg, .jpeg, .png"/>*/}
       </div>
     );
   }
