@@ -1,0 +1,137 @@
+@import "fonts";
+
+$character-speed: 9px;
+$background-speed: 7px;
+
+body {
+  font-family: GraublauWeb;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.background {
+  width: 700px;
+  height: 700px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 20px;
+}
+
+.background__image {
+  transform: scale(0) translateY($background-speed);
+  transition: transform .8s ease-in-out;
+}
+
+.character {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  transform: translate(-50%, 150%);
+  transition: transform .8s ease-in-out;
+}
+
+.character__image {
+  position: relative;
+  width: 100%;
+}
+
+.character__face {
+  position: absolute;
+  width: 170px;
+  top: 32%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.top-text,
+.bottom-text {
+  position: absolute;
+  width: 85%;
+  height: 20%;
+  color: #6EA4DC;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  transition: all .4s cubic-bezier(0.175, 0.885, 0.32, 1.275) .3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.top-text {
+  top: 0;
+  transform-origin: top center;
+  font-size: 48px;
+}
+
+.bottom-text {
+  bottom: 0;
+  transform-origin: bottom center;
+  font-size: 34px;
+}
+
+.animating {
+  .background__image {
+    transform: scale(1) translateY($background-speed);
+    animation: bouncing-background infinite 1s ease-in-out .8s;
+  }
+
+  .character {
+    transform: translate(-50%, -50%) translateY(-($character-speed));
+    animation: bouncing-character infinite 1s ease-in-out .8s;
+  }
+
+  .top-text,
+  .bottom-text {
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+@keyframes bouncing-character {
+  0% {
+    transform: translate(-50%, -50%) translateY(-($character-speed));
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY($character-speed);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateY(-($character-speed));
+  }
+}
+
+@keyframes bouncing-background {
+  0% {
+    transform: scale(1) translateY($background-speed);
+  }
+  50% {
+    transform: scale(1) translateY(-($background-speed));
+  }
+  100% {
+    transform: scale(1) translateY($background-speed);
+  }
+}
