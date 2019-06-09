@@ -4,14 +4,18 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.6",
+    "express": "^4.17.1",
+    "express-favicon": "^2.0.1",
     "face-api.js": "^0.20.0",
     "node-sass": "^4.12.0",
+    "path": "^0.12.7",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node server.js",
+    "start:dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
