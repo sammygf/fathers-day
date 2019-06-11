@@ -1,4 +1,6 @@
 import React from 'react';
+import * as firebase from "firebase/app";
+import firebaseConfig from './firebase/config';
 import logo from './logo.svg';
 import './App.scss';
 // import * as faceapi from 'face-api.js';
@@ -26,7 +28,9 @@ class App extends React.Component {
     // await faceapi.loadSsdMobilenetv1Model('/models');
     setTimeout(() => this.setState({
       animating: true
-    }))
+    }));
+
+    firebase.initializeApp(firebaseConfig)
   }
 
   // onImageSelected = async event => {
