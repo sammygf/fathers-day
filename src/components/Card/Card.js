@@ -13,36 +13,49 @@ import { Robert } from "../Robert/Robert";
 
 // import gif from './images/backgrounds/1.gif'
 
+const characters = [Boss, Ralph, Robert];
+
 export class Card extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       animating: false,
+      character: 0,
     };
   }
 
   async componentDidMount() {
-    const { smallImage } = this.props.location;
+    const { smallImage, selectedCharacter } = this.props.location;
     const id = this.props.match.params.id;
     let src = null;
+    let character;
 
     if (smallImage) {
       src = smallImage;
+      character = selectedCharacter;
     } else {
       firebase.initializeApp(firebaseConfig);
       const snapshot = await firebase.database().ref('/faces/' + id).once('value');
-      src = snapshot.val();
+      const val = snapshot.val();
+      if (!val) {
+        window.location.replace('/');
+      }
+      src = val.image;
+      character = val.character;
     }
 
     this.setState({
       src,
-      animating: true
+      animating: true,
+      character,
     })
   }
 
   render() {
-    const { animating } = this.state;
+    const { animating, character } = this.state;
+    const Character = characters[character];
+
     return (
       <div className={classNames(styles.card, {
         [styles.animating]: this.state.animating
@@ -53,9 +66,7 @@ export class Card extends React.Component {
         <div className={styles.background}>
           <Bg className={styles.backgroundImage}/>
           <div className={styles.character}>
-            {/*<Boss src={this.state.src}/>*/}
-            {/*<Ralph src={this.state.src}/>*/}
-            <Robert src={this.state.src}/>
+            <Character src={this.state.src}/>
           </div>
           <div className={styles.topText}>
             <img src={top} alt=""/>

@@ -3,10 +3,23 @@ import firebase from 'firebase';
 import firebaseConfig from './../../firebase/config';
 import { Redirect } from 'react-router-dom'
 import styles from './Upload.module.scss';
+import robert from '../../images/robert.png';
+import ralph from '../../images/ralph.png';
+import boss from '../../images/boss.png';
 import logo from '../../images/logo.png';
 import shortid from 'shortid';
 import { Button } from '../Button/Button';
 import { Spinner } from '../Spinner/Spinner';
+import Slider from "react-slick";
+
+const sliderSettings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  arrows: true,
+};
 
 export class Upload extends React.Component {
   constructor(props) {
@@ -23,10 +36,14 @@ export class Upload extends React.Component {
     this.reader = new FileReader();
     this.detectFaces = this.functions.httpsCallable('detectFaces');
     this.reader = new FileReader();
+    this.selectedCharacter = 0;
   }
 
   writeFaceToDatabace(id, image) {
-    firebase.database().ref('faces/' + id).set(image);
+    firebase.database().ref('faces/' + id).set({
+      image,
+      character: this.selectedCharacter,
+    });
   }
 
   onImageSelected = event => {
@@ -74,6 +91,10 @@ export class Upload extends React.Component {
     };
   }
 
+  handleSlideChange = index => {
+    this.selectedCharacter = index;
+  };
+
   render() {
     const { smallImage, isLoading } = this.state;
 
@@ -81,6 +102,7 @@ export class Upload extends React.Component {
       return <Redirect to={{
         pathname: `/${this.state.id}`,
         smallImage,
+        selectedCharacter: this.selectedCharacter
       }}/>
     }
 
@@ -91,12 +113,25 @@ export class Upload extends React.Component {
           <p>Вибери супергероя, який найкраще відповідає характеру твого тата</p>
         </div>
         {isLoading && <Spinner/>}
-        {!isLoading &&
-          <Button>
-            <div>Завантажити фото</div>
-            <input type="file" onChange={this.onImageSelected} accept="image/*" className={styles.input}/>
-          </Button>
-        }
+        {!isLoading && (
+          <React.Fragment>
+            <Slider {...sliderSettings} className={styles.slider} afterChange={this.handleSlideChange}>
+              <div>
+                <img src={robert} alt="Brabrabra" className={styles.robert}/>
+              </div>
+              <div>
+                <img src={boss} alt="Brabrabra" className={styles.boss}/>
+              </div>
+              <div>
+                <img src={ralph} alt="Brabrabra" className={styles.ralph}/>
+              </div>
+            </Slider>
+            <Button>
+              <div>Завантажити фото</div>
+              <input type="file" onChange={this.onImageSelected} accept="image/*" className={styles.input}/>
+            </Button>
+          </React.Fragment>
+        )}
       </div>
     )
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Ralph.module.scss';
-import character from './ralph_empty.png'
+import character from './ralph.png'
 
 export class Ralph extends React.Component {
   render() {
