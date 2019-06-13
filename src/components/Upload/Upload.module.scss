@@ -29,7 +29,7 @@
 }
 
 .slider {
-  height: 300px;
+  height: 260px;
   width: 250px;
   //display: flex;
   //align-items: center;
@@ -42,13 +42,14 @@
   height: 250px;
 }
 
-.robert {
-}
-
-.ralph {
-
-}
-
 .boss {
   height: 200px;
+}
+
+.name {
+  display: block;
+  margin-bottom: 10px;
+  border: 1px solid orange;
+  padding: 5px 10px;
+  border-radius: 5px;
 }

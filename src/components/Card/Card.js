@@ -26,34 +26,31 @@ export class Card extends React.Component {
   }
 
   async componentDidMount() {
-    const { smallImage, selectedCharacter } = this.props.location;
+    let { smallImage, selectedCharacter, name } = this.props.location;
     const id = this.props.match.params.id;
-    let src = null;
-    let character;
 
-    if (smallImage) {
-      src = smallImage;
-      character = selectedCharacter;
-    } else {
+    if (!smallImage) {
       firebase.initializeApp(firebaseConfig);
       const snapshot = await firebase.database().ref('/faces/' + id).once('value');
       const val = snapshot.val();
       if (!val) {
         window.location.replace('/');
       }
-      src = val.image;
-      character = val.character;
+      smallImage = val.image;
+      selectedCharacter = val.character;
+      name = val.name;
     }
 
     this.setState({
-      src,
+      src: smallImage,
       animating: true,
-      character,
+      character: selectedCharacter,
+      name,
     })
   }
 
   render() {
-    const { animating, character } = this.state;
+    const { animating, character, name } = this.state;
     const Character = characters[character];
 
     return (
@@ -75,8 +72,7 @@ export class Card extends React.Component {
           </div>
           <div className={styles.bottomText}>
             <img src={bottom} alt=""/>
-            <span>Я вірю тільки в таких супергероїв!
-            Твоя Алла.</span>
+            <span>Я вірю тільки в таких супергероїв! {name}</span>
           </div>
         </div>
       </div>

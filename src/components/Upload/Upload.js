@@ -11,14 +11,13 @@ import shortid from 'shortid';
 import { Button } from '../Button/Button';
 import { Spinner } from '../Spinner/Spinner';
 import Slider from "react-slick";
+import debounce from 'lodash/debounce';
 
 const sliderSettings = {
-  dots: true,
   infinite: true,
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
-  arrows: true,
 };
 
 export class Upload extends React.Component {
@@ -27,7 +26,8 @@ export class Upload extends React.Component {
 
     this.state = {
       smallImage: null,
-      isLoading: false
+      isLoading: false,
+      name: null,
     };
 
     firebase.initializeApp(firebaseConfig);
@@ -40,9 +40,12 @@ export class Upload extends React.Component {
   }
 
   writeFaceToDatabace(id, image) {
+    const { name } = this.state;
+
     firebase.database().ref('faces/' + id).set({
       image,
       character: this.selectedCharacter,
+      name,
     });
   }
 
@@ -95,14 +98,27 @@ export class Upload extends React.Component {
     this.selectedCharacter = index;
   };
 
+  nameChanged = debounce(name => {
+    this.setState({
+      name,
+    })
+  }, 200);
+
+  handleNameChange = event => {
+    this.nameChanged(event.currentTarget.value)
+  };
+
   render() {
-    const { smallImage, isLoading } = this.state;
+    const { smallImage, isLoading, name } = this.state;
+
+    console.log(name);
 
     if (smallImage) {
       return <Redirect to={{
         pathname: `/${this.state.id}`,
         smallImage,
-        selectedCharacter: this.selectedCharacter
+        selectedCharacter: this.selectedCharacter,
+        name,
       }}/>
     }
 
@@ -112,21 +128,26 @@ export class Upload extends React.Component {
         <div className={styles.text}>
           <p>Вибери супергероя, який найкраще відповідає характеру твого тата</p>
         </div>
+        <Slider {...sliderSettings}
+                className={styles.slider}
+                afterChange={this.handleSlideChange}
+                swipe={!isLoading}
+                arrows={!isLoading}>
+          <div>
+            <img src={robert} alt="Brabrabra" className={styles.robert}/>
+          </div>
+          <div>
+            <img src={boss} alt="Brabrabra" className={styles.boss}/>
+          </div>
+          <div>
+            <img src={ralph} alt="Brabrabra" className={styles.ralph}/>
+          </div>
+        </Slider>
         {isLoading && <Spinner/>}
         {!isLoading && (
           <React.Fragment>
-            <Slider {...sliderSettings} className={styles.slider} afterChange={this.handleSlideChange}>
-              <div>
-                <img src={robert} alt="Brabrabra" className={styles.robert}/>
-              </div>
-              <div>
-                <img src={boss} alt="Brabrabra" className={styles.boss}/>
-              </div>
-              <div>
-                <img src={ralph} alt="Brabrabra" className={styles.ralph}/>
-              </div>
-            </Slider>
-            <Button>
+            <input type="text" className={styles.name} placeholder="Твоє ім'я" onChange={this.handleNameChange}/>
+            <Button disabled={!name}>
               <div>Завантажити фото</div>
               <input type="file" onChange={this.onImageSelected} accept="image/*" className={styles.input}/>
             </Button>
