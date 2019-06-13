@@ -4,8 +4,9 @@ import firebaseConfig from './../../firebase/config';
 import { Redirect } from 'react-router-dom'
 import styles from './Upload.module.scss';
 import logo from '../../images/logo.png';
-import faceMock from '../../face.mock';
+import shortid from 'shortid';
 import { Button } from '../Button/Button';
+import { Spinner } from '../Spinner/Spinner';
 
 export class Upload extends React.Component {
   constructor(props) {
@@ -13,6 +14,7 @@ export class Upload extends React.Component {
 
     this.state = {
       smallImage: null,
+      isLoading: false
     };
 
     firebase.initializeApp(firebaseConfig);
@@ -27,7 +29,14 @@ export class Upload extends React.Component {
     firebase.database().ref('faces/' + id).set(image);
   }
 
-  onImageSelected = async event => {
+  onImageSelected = event => {
+    this.setState({
+      isLoading: true,
+    });
+    this.processImage(event);
+  };
+
+  async processImage(event) {
     const file = event.target.files[0];
     this.reader.readAsDataURL(file);
     this.reader.onload = async event => {
@@ -47,7 +56,7 @@ export class Upload extends React.Component {
       const x = centerX - radius;
       const y = centerY - radius;
       const size = radius * 2;
-      const id = Math.floor(Math.random() * 100);
+      const id = shortid.generate();
 
       img.onload = () => {
         canvas.width = 100;
@@ -63,14 +72,14 @@ export class Upload extends React.Component {
 
       img.src = base64;
     };
-  };
+  }
 
   render() {
-    const { smallImage } = this.state;
+    const { smallImage, isLoading } = this.state;
 
     if (smallImage) {
       return <Redirect to={{
-        pathname: `/share/${this.state.id}`,
+        pathname: `/${this.state.id}`,
         smallImage,
       }}/>
     }
@@ -81,10 +90,13 @@ export class Upload extends React.Component {
         <div className={styles.text}>
           <p>Вибери супергероя, який найкраще відповідає характеру твого тата</p>
         </div>
-        <Button>
-          <div>Завантажити фото</div>
-          <input type="file" onChange={this.onImageSelected} accept=".jpg, .jpeg, .png" className={styles.input}/>
-        </Button>
+        {isLoading && <Spinner/>}
+        {!isLoading &&
+          <Button>
+            <div>Завантажити фото</div>
+            <input type="file" onChange={this.onImageSelected} accept="image/*" className={styles.input}/>
+          </Button>
+        }
       </div>
     )
   }

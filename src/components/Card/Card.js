@@ -1,5 +1,5 @@
 import React from 'react';
-import './Card.scss';
+import styles from './Card.module.scss';
 import firebase from 'firebase';
 import firebaseConfig from './../../firebase/config';
 import { ReactComponent as Bg } from './images/backgrounds/1.svg'
@@ -40,21 +40,21 @@ export class Card extends React.Component {
 
   render() {
     return (
-      <div className={classNames('App', {
-        'animating': this.state.animating
+      <div className={classNames(styles.card, {
+        [styles.animating]: this.state.animating
       })}>
-        <div className="background">
-          <Bg className="background__image"/>
-          <div className="character">
-            <img src={this.state.src} className="character__face"/>
-            <img src={character} className="character__image"/>
+        <div className={styles.background}>
+          <Bg className={styles.backgroundImage}/>
+          <div className={styles.character}>
+            <img src={this.state.src} className={styles.characterFace} />
+            <img src={character} className={styles.characterImage} />
           </div>
-          <div className="top-text">
+          <div className={styles.topText}>
             <img src={top} alt=""/>
             <span>Вітаю з днем батька найсуперовішого
             тата!</span>
           </div>
-          <div className="bottom-text">
+          <div className={styles.bottomText}>
             <img src={bottom} alt=""/>
             <span>Я вірю тільки в таких супергероїв!
             Твоя Алла.</span>
