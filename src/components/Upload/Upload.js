@@ -12,6 +12,7 @@ import { Button } from '../Button/Button';
 import { Spinner } from '../Spinner/Spinner';
 import Slider from "react-slick";
 import debounce from 'lodash/debounce';
+import { getBase64Strings } from 'exif-rotate-js/lib';
 
 const sliderSettings = {
   infinite: true,
@@ -33,9 +34,7 @@ export class Upload extends React.Component {
     firebase.initializeApp(firebaseConfig);
     this.functions = firebase.functions();
     // this.functions.useFunctionsEmulator('http://localhost:5001');
-    this.reader = new FileReader();
     this.detectFaces = this.functions.httpsCallable('detectFaces');
-    this.reader = new FileReader();
     this.selectedCharacter = 0;
   }
 
@@ -57,41 +56,36 @@ export class Upload extends React.Component {
   };
 
   async processImage(event) {
-    const file = event.target.files[0];
-    this.reader.readAsDataURL(file);
-    this.reader.onload = async event => {
-      const image = event.target.result.replace(/^data:image\/[a-z]+;base64,/, '');
-      const response = await this.detectFaces({
-        image
+    const data = await getBase64Strings(event.target.files);
+    const base64 = data[0];
+    const image = base64.replace(/^data:image\/[a-z]+;base64,/, '');
+    const response = await this.detectFaces({ image });
+    const face = response.data;
+    const img = new Image();
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const { noseTip, leftEar, rightEar, rightEyeCorner, leftEyeCorner } = face;
+    const centerX = (leftEyeCorner.x + rightEyeCorner.x) / 2;
+    const centerY = noseTip.y;
+    const radius = (rightEar.x - leftEar.x) / 2;
+    const x = centerX - radius;
+    const y = centerY - radius;
+    const size = radius * 2;
+    const id = shortid.generate();
+
+    img.onload = () => {
+      canvas.width = 100;
+      canvas.height = 100;
+      ctx.drawImage(img, x, y, size, size, 0, 0, canvas.width, canvas.height);
+      const smallImage = canvas.toDataURL();
+      this.writeFaceToDatabace(id, smallImage);
+      this.setState({
+        smallImage,
+        id,
       });
-      const face = response.data;
-      const base64 = event.target.result;
-      const img = new Image();
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      const { noseTip, leftEar, rightEar, rightEyeCorner, leftEyeCorner } = face;
-      const centerX = (leftEyeCorner.x + rightEyeCorner.x) / 2;
-      const centerY = noseTip.y;
-      const radius = (rightEar.x - leftEar.x) / 2;
-      const x = centerX - radius;
-      const y = centerY - radius;
-      const size = radius * 2;
-      const id = shortid.generate();
-
-      img.onload = () => {
-        canvas.width = 100;
-        canvas.height = 100;
-        ctx.drawImage(img, x, y, size, size, 0, 0, canvas.width, canvas.height);
-        const smallImage = canvas.toDataURL();
-        this.writeFaceToDatabace(id, smallImage);
-        this.setState({
-          smallImage,
-          id,
-        });
-      };
-
-      img.src = base64;
     };
+
+    img.src = base64;
   }
 
   handleSlideChange = index => {
