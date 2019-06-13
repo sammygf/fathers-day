@@ -1,0 +1,12 @@
+.character {
+  position: relative;
+  height: 100%;
+}
+
+.face {
+  position: absolute;
+  top: 36%;
+  left: 50%;
+  width: 28%;
+  transform: translate(-50%, -50%);
+}

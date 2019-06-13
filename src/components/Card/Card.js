@@ -2,11 +2,14 @@ import React from 'react';
 import styles from './Card.module.scss';
 import firebase from 'firebase';
 import firebaseConfig from './../../firebase/config';
-import { ReactComponent as Bg } from './images/backgrounds/1.svg'
-import character from './images/backgrounds/character.png'
-import top from './images/backgrounds/top.png'
-import bottom from './images/backgrounds/bottom.png'
+import { ReactComponent as Bg } from './images/background.svg'
+import top from './images/top.png'
+import bottom from './images/bottom.png'
 import classNames from 'classnames';
+import { Spinner } from '../Spinner/Spinner';
+import { Boss } from "../Boss/Boss";
+import { Ralph } from "../Ralph/Ralph";
+import { Robert } from "../Robert/Robert";
 
 // import gif from './images/backgrounds/1.gif'
 
@@ -39,15 +42,20 @@ export class Card extends React.Component {
   }
 
   render() {
+    const { animating } = this.state;
     return (
       <div className={classNames(styles.card, {
         [styles.animating]: this.state.animating
       })}>
+        <Spinner className={classNames(styles.spinner, {
+          [styles.spinnerVisible]: !animating,
+        })}/>
         <div className={styles.background}>
           <Bg className={styles.backgroundImage}/>
           <div className={styles.character}>
-            <img src={this.state.src} className={styles.characterFace} />
-            <img src={character} className={styles.characterImage} />
+            {/*<Boss src={this.state.src}/>*/}
+            {/*<Ralph src={this.state.src}/>*/}
+            <Robert src={this.state.src}/>
           </div>
           <div className={styles.topText}>
             <img src={top} alt=""/>

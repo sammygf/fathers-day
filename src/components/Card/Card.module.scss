@@ -30,21 +30,8 @@ $background-speed: 7px;
   top: 50%;
   left: 50%;
   height: 40%;
-  transform: translate(-50%, 150%);
+  transform: translate(-50%, 200%);
   transition: transform .8s ease-in-out;
-}
-
-.characterImage {
-  position: relative;
-  height: 100%;
-}
-
-.characterFace {
-  position: absolute;
-  top: 36%;
-  left: 50%;
-  width: 28%;
-  transform: translate(-50%, -50%);
 }
 
 .topText,
@@ -104,6 +91,22 @@ $background-speed: 7px;
   .bottomText {
     transform: translateX(-50%) scale(1);
   }
+}
+
+.spinner {
+  display: none !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+
+  div {
+    background: white !important;
+  }
+}
+
+.spinnerVisible {
+  display: block !important;
 }
 
 @keyframes bouncing-character {

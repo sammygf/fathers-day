@@ -1,0 +1,15 @@
+.character {
+  position: absolute;
+  height: 450px;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -20%);
+}
+
+.face {
+  position: absolute;
+  top: -46px;
+  left: -10px;
+  width: 42px;
+  transform: translate(-50%, -50%) rotateZ(-8deg);
+}
