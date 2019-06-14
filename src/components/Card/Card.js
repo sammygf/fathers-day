@@ -13,7 +13,7 @@ import { Robert } from "../Robert/Robert";
 
 // import gif from './images/backgrounds/1.gif'
 
-const characters = [Boss, Ralph, Robert];
+const characters = [Robert, Boss, Ralph];
 
 export class Card extends React.Component {
   constructor(props) {
@@ -21,7 +21,7 @@ export class Card extends React.Component {
 
     this.state = {
       animating: false,
-      character: 0,
+      selectedCharacter: 0,
     };
   }
 
@@ -44,14 +44,14 @@ export class Card extends React.Component {
     this.setState({
       src: smallImage,
       animating: true,
-      character: selectedCharacter,
+      selectedCharacter,
       name,
     })
   }
 
   render() {
-    const { animating, character, name } = this.state;
-    const Character = characters[character];
+    const { animating, selectedCharacter, name } = this.state;
+    const Character = characters[selectedCharacter];
 
     return (
       <div className={classNames(styles.card, {
@@ -65,14 +65,13 @@ export class Card extends React.Component {
           <div className={styles.character}>
             <Character src={this.state.src}/>
           </div>
-          <div className={styles.topText}>
-            <img src={top} alt=""/>
-            <span>Вітаю з днем батька найсуперовішого
-            тата!</span>
+          <div className={styles.topText} style={{backgroundImage: `url(${top})`}}>
+            <p>Вітаю з днем батька найсуперовішого
+            тата!</p>
           </div>
-          <div className={styles.bottomText}>
-            <img src={bottom} alt=""/>
-            <span>Я вірю тільки в таких супергероїв! {name}</span>
+          <div className={styles.bottomText} style={{backgroundImage: `url(${bottom})`}}>
+            <p>Я вірю тільки в таких супергероїв!</p>
+            <p>{name}</p>
           </div>
         </div>
       </div>

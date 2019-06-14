@@ -1,6 +1,6 @@
 body, * {
   margin: 0;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Montserrat', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 21px;
@@ -20,7 +20,22 @@ code {
 #root {
   height: 100%;
 }
+.slick-next, .slick-prev {
+  animation: arrows ease-in-out 1s infinite;
+}
 
 .slick-next:before, .slick-prev:before {
   color: orange;
+}
+
+@keyframes arrows {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

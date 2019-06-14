@@ -6,7 +6,7 @@
 }
 
 .logo {
-  height: 80px;
+  height: 60px;
   margin-top: 10px;
 }
 
@@ -29,10 +29,17 @@
 }
 
 .slider {
-  height: 260px;
+  height: 300px;
   width: 250px;
   //display: flex;
   //align-items: center;
+}
+
+.hero {
+  color: orange;
+  display: block;
+  text-align: center;
+  padding-bottom: 10px;
 }
 
 .robert,
@@ -52,4 +59,5 @@
   border: 1px solid orange;
   padding: 5px 10px;
   border-radius: 5px;
+  text-align: center;
 }

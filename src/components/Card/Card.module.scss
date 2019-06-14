@@ -37,33 +37,14 @@ $background-speed: 7px;
 .topText,
 .bottomText {
   position: absolute;
-  height: 80px;
+  padding: 10px;
   width: 300px;
   color: #6EA4DC;
   left: 50%;
   transform: translateX(-50%) scale(0);
   transition: all .4s cubic-bezier(0.175, 0.885, 0.32, 1.275) .3s;
-
-  > img {
-    height: 100%;
-    width: 100%;
-    display: block;
-  }
-
-  > span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    font-weight: bold;
-    padding: 0 10px;
-    box-sizing: border-box;
-  }
+  background-size: 100% 100%;
+  text-align: center;
 }
 
 .topText {
@@ -74,6 +55,10 @@ $background-speed: 7px;
 .bottomText {
   bottom: 0;
   transform-origin: bottom center;
+
+  > p:last-of-type {
+    font-size: 25px;
+  }
 }
 
 .animating {

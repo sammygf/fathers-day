@@ -5,10 +5,10 @@ import character from './ralph.png'
 export class Ralph extends React.Component {
   render() {
     return (
-      <React.Fragment>
+      <div className={styles.hero}>
         <img src={this.props.src} className={styles.face}/>
         <img src={character} className={styles.character}/>
-      </React.Fragment>
+      </div>
     );
   }
 }

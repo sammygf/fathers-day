@@ -12,7 +12,7 @@ import { Button } from '../Button/Button';
 import { Spinner } from '../Spinner/Spinner';
 import Slider from "react-slick";
 import debounce from 'lodash/debounce';
-import { getBase64Strings } from 'exif-rotate-js/lib';
+import imageFileToBase64 from 'image-file-to-base64-exif'
 
 const sliderSettings = {
   infinite: true,
@@ -56,8 +56,8 @@ export class Upload extends React.Component {
   };
 
   async processImage(event) {
-    const data = await getBase64Strings(event.target.files);
-    const base64 = data[0];
+    const data = await imageFileToBase64(event.target.files[0]);
+    const base64 = data;
     const image = base64.replace(/^data:image\/[a-z]+;base64,/, '');
     const response = await this.detectFaces({ image });
     const face = response.data;
@@ -105,8 +105,6 @@ export class Upload extends React.Component {
   render() {
     const { smallImage, isLoading, name } = this.state;
 
-    console.log(name);
-
     if (smallImage) {
       return <Redirect to={{
         pathname: `/${this.state.id}`,
@@ -120,7 +118,7 @@ export class Upload extends React.Component {
       <div className={styles.container}>
         <img src={logo} alt="Brabrabra" className={styles.logo}/>
         <div className={styles.text}>
-          <p>Вибери супергероя, який найкраще відповідає характеру твого тата</p>
+          <p>Обери супергероя, який найкраще відповідає характеру твого тата</p>
         </div>
         <Slider {...sliderSettings}
                 className={styles.slider}
@@ -128,12 +126,15 @@ export class Upload extends React.Component {
                 swipe={!isLoading}
                 arrows={!isLoading}>
           <div>
+            <span className={styles.hero}>Супер-тато</span>
             <img src={robert} alt="Brabrabra" className={styles.robert}/>
           </div>
           <div>
+            <span className={styles.hero}>Бізі-тато</span>
             <img src={boss} alt="Brabrabra" className={styles.boss}/>
           </div>
           <div>
+            <span className={styles.hero}>Біг-тато</span>
             <img src={ralph} alt="Brabrabra" className={styles.ralph}/>
           </div>
         </Slider>
