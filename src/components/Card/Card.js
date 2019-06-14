@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import firebaseConfig from './../../firebase/config';
 import { ReactComponent as Bg } from './images/background.svg'
 import { ReactComponent as ShareIcon } from '../../images/share.svg'
+import { ReactComponent as HomeIcon } from '../../images/home.svg'
 import top from './images/top.png'
 import bottom from './images/bottom.png'
 import classNames from 'classnames';
@@ -68,6 +69,10 @@ export class Card extends React.Component {
     }, 3000);
   };
 
+  handleHomeClick = () => {
+    window.location.href = '/';
+  };
+
   render() {
     const { animating, selectedCharacter, name, shareVisible } = this.state;
 
@@ -86,6 +91,7 @@ export class Card extends React.Component {
 
       })}>
         {shareVisible && <Share/>}
+        <HomeIcon className={styles.home} onClick={this.handleHomeClick}/>
         <ShareIcon className={styles.share} onClick={this.handleShareClick}/>
         <div className={styles.background}>
           <Bg className={styles.backgroundImage}/>
