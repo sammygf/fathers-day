@@ -3,6 +3,7 @@ import styles from './Card.module.scss';
 import firebase from 'firebase';
 import firebaseConfig from './../../firebase/config';
 import { ReactComponent as Bg } from './images/background.svg'
+import { ReactComponent as ShareIcon } from '../../images/share.svg'
 import top from './images/top.png'
 import bottom from './images/bottom.png'
 import classNames from 'classnames';
@@ -10,8 +11,8 @@ import { Spinner } from '../Spinner/Spinner';
 import { Boss } from "../Boss/Boss";
 import { Ralph } from "../Ralph/Ralph";
 import { Robert } from "../Robert/Robert";
-
-// import gif from './images/backgrounds/1.gif'
+import { Share } from "../Share/Share";
+import copy from 'copy-to-clipboard';
 
 const characters = [Robert, Boss, Ralph];
 const colors = [styles.green, styles.orange, styles.blue];
@@ -23,6 +24,7 @@ export class Card extends React.Component {
     this.state = {
       animating: false,
       selectedCharacter: null,
+      shareVisible: false,
     };
   }
 
@@ -53,8 +55,21 @@ export class Card extends React.Component {
     this.setState({ animating: true });
   };
 
+  handleShareClick = () => {
+    copy(window.location.href);
+    this.setState({
+      shareVisible: true,
+    });
+
+    setTimeout(() => {
+      this.setState({
+        shareVisible: false,
+      });
+    }, 3000);
+  };
+
   render() {
-    const { animating, selectedCharacter, name } = this.state;
+    const { animating, selectedCharacter, name, shareVisible } = this.state;
 
     if (selectedCharacter === null) {
       return <Spinner className={classNames(styles.spinner, {
@@ -70,6 +85,8 @@ export class Card extends React.Component {
         [styles.animating]: this.state.animating
 
       })}>
+        {shareVisible && <Share/>}
+        <ShareIcon className={styles.share} onClick={this.handleShareClick}/>
         <div className={styles.background}>
           <Bg className={styles.backgroundImage}/>
           <div className={styles.character}>

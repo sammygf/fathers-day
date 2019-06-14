@@ -20,6 +20,21 @@ $background-speed: 7px;
   background: linear-gradient(-175deg, #02b1ff, #006998);
 }
 
+.share {
+  position: absolute;
+  display: block;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  bottom: 18%;
+  z-index: 2;
+  background: white;
+  fill: #1eb1fc;
+  border-radius: 5px 0 0 5px;
+  padding: 10px;
+  box-shadow: -3px 4px 8px #00000066;
+}
+
 .background {
   width: 100%;
   height: 100%;
