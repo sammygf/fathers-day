@@ -14,6 +14,7 @@ import { Robert } from "../Robert/Robert";
 // import gif from './images/backgrounds/1.gif'
 
 const characters = [Robert, Boss, Ralph];
+const colors = [styles.green, styles.orange, styles.blue];
 
 export class Card extends React.Component {
   constructor(props) {
@@ -21,7 +22,7 @@ export class Card extends React.Component {
 
     this.state = {
       animating: false,
-      selectedCharacter: 0,
+      selectedCharacter: null,
     };
   }
 
@@ -43,33 +44,42 @@ export class Card extends React.Component {
 
     this.setState({
       src: smallImage,
-      animating: true,
       selectedCharacter,
       name,
-    })
+    });
   }
+
+  handleCharacterLoad = () => {
+    this.setState({ animating: true });
+  };
 
   render() {
     const { animating, selectedCharacter, name } = this.state;
+
+    if (selectedCharacter === null) {
+      return <Spinner className={classNames(styles.spinner, {
+        [styles.spinnerVisible]: !animating,
+      })}/>;
+    }
+
     const Character = characters[selectedCharacter];
+    const colorClassName = colors[selectedCharacter];
 
     return (
-      <div className={classNames(styles.card, {
+      <div className={classNames(styles.card, colorClassName, {
         [styles.animating]: this.state.animating
+
       })}>
-        <Spinner className={classNames(styles.spinner, {
-          [styles.spinnerVisible]: !animating,
-        })}/>
         <div className={styles.background}>
           <Bg className={styles.backgroundImage}/>
           <div className={styles.character}>
-            <Character src={this.state.src}/>
+            <Character src={this.state.src} onLoad={this.handleCharacterLoad}/>
           </div>
-          <div className={styles.topText} style={{backgroundImage: `url(${top})`}}>
+          <div className={styles.topText} style={{ backgroundImage: `url(${top})` }}>
             <p>Вітаю з днем батька найсуперовішого
-            тата!</p>
+              тата!</p>
           </div>
-          <div className={styles.bottomText} style={{backgroundImage: `url(${bottom})`}}>
+          <div className={styles.bottomText} style={{ backgroundImage: `url(${bottom})` }}>
             <p>Я вірю тільки в таких супергероїв!</p>
             <p>{name}</p>
           </div>

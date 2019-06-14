@@ -2,10 +2,22 @@ $character-speed: 9px;
 $background-speed: 7px;
 
 .card {
-  position: fixed;
+  position: absolute;
   width: 100%;
   height: 100%;
+  bottom: 0;
+}
+
+.orange {
   background: orange;
+}
+
+.green {
+  background: linear-gradient(-175deg, #57f36c, #01630f);
+}
+
+.blue {
+  background: linear-gradient(-175deg, #02b1ff, #006998);
 }
 
 .background {
@@ -58,6 +70,7 @@ $background-speed: 7px;
 
   > p:last-of-type {
     font-size: 25px;
+    font-weight: bold;
   }
 }
 
@@ -84,10 +97,6 @@ $background-speed: 7px;
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
-
-  div {
-    background: white !important;
-  }
 }
 
 .spinnerVisible {
