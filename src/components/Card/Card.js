@@ -68,15 +68,13 @@ export class Card extends React.Component {
       this.setState({
         shareVisible: false,
       });
-    }, 3000);
+    }, 5000);
   };
 
   handleHomeClick = () => {
     this.setState({
       goHomeVisible: true
     });
-
-    // window.location.href = '/';
   };
 
   goHome = () => {
@@ -109,7 +107,7 @@ export class Card extends React.Component {
         {shareVisible &&
         <Share>
           <p>Посилання скопійовано.</p>
-          <p>Скоріше відправ його татові!</p>
+          <p>Скоріше відправ його татові у будь-який месенджер!</p>
         </Share>
         }
         {goHomeVisible &&
