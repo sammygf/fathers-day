@@ -14,6 +14,7 @@ import { Ralph } from "../Ralph/Ralph";
 import { Robert } from "../Robert/Robert";
 import { Share } from "../Share/Share";
 import copy from 'copy-to-clipboard';
+import { Button } from "../Button/Button";
 
 const characters = [Robert, Boss, Ralph];
 const colors = [styles.green, styles.orange, styles.blue];
@@ -26,6 +27,7 @@ export class Card extends React.Component {
       animating: false,
       selectedCharacter: null,
       shareVisible: false,
+      goHomeVisible: false,
     };
   }
 
@@ -70,11 +72,25 @@ export class Card extends React.Component {
   };
 
   handleHomeClick = () => {
-    window.location.href = '/';
+    this.setState({
+      goHomeVisible: true
+    });
+
+    // window.location.href = '/';
+  };
+
+  goHome = () => {
+    window.location.href = '/'
+  };
+
+  cancel = () => {
+    this.setState({
+      goHomeVisible: false
+    });
   };
 
   render() {
-    const { animating, selectedCharacter, name, shareVisible } = this.state;
+    const { animating, selectedCharacter, name, shareVisible, goHomeVisible } = this.state;
 
     if (selectedCharacter === null) {
       return <Spinner className={classNames(styles.spinner, {
@@ -90,7 +106,21 @@ export class Card extends React.Component {
         [styles.animating]: this.state.animating
 
       })}>
-        {shareVisible && <Share/>}
+        {shareVisible &&
+        <Share>
+          <p>Посилання скопійовано.</p>
+          <p>Скоріше відправ його татові!</p>
+        </Share>
+        }
+        {goHomeVisible &&
+        <Share>
+          <p>Хочете зробити нового героя?</p>
+          <div>
+            <Button className={styles.button} onClick={this.goHome}>Так</Button>
+            <Button className={styles.button} onClick={this.cancel}>Ні</Button>
+          </div>
+        </Share>
+        }
         <HomeIcon className={styles.home} onClick={this.handleHomeClick}/>
         <ShareIcon className={styles.share} onClick={this.handleShareClick}/>
         <div className={styles.background}>

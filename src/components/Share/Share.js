@@ -6,8 +6,7 @@ export class Share extends React.Component {
     return (
       <div className={styles.share}>
         <div className={styles.content}>
-          <p>Посилання скопійовано.</p>
-          <p>Скоріше відправ його татові!</p>
+          {this.props.children}
         </div>
       </div>
     );

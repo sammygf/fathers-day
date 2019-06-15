@@ -20,6 +20,11 @@ $background-speed: 7px;
   background: linear-gradient(-175deg, #02b1ff, #006998);
 }
 
+.button {
+  margin: 20px 5px 0;
+  width: 100px;
+}
+
 .home,
 .share {
   position: absolute;
@@ -37,6 +42,9 @@ $background-speed: 7px;
 .home {
   left: 0;
   border-radius: 0 5px 5px 0;
+  width: 34px;
+  height: 34px;
+  padding: 13px;
 }
 
 .share {

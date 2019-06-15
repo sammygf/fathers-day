@@ -2,10 +2,15 @@
   border: 1px solid black;
   padding: 15px;
   font-size: 18px;
-  background: lightblue;
+  background: orange;
   text-transform: unset;
   border-radius: 3px;
   position: relative;
+  color: white;
+
+  * {
+    color: white;
+  }
 }
 
 .disabled {
